@@ -1,0 +1,124 @@
+﻿@model  ME.Models.User
+@{
+  ViewBag.Title = "Question";
+  Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Users</h3>
+        </div>
+        <div class="col-md-12 ">
+          <h5 style="color:red" id="Message">@ViewBag.msg</h5>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          @using (Html.BeginForm("SaveUser", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+          {
+            @Html.TextBox("UserId", null, new { @class = "", @Id = "UserId", @style = "display:none" })
+            <div class="form-group">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.Name, new { @class = "input-height" })
+                  @Html.TextBox("Name", null, new { @class = "form-control input-height", @placeholder = "UserName", @Id = "Name", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.Name, "*Name is required", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.Email, new { @class = "input-height" })
+                  @Html.TextBox("Email", null, new { @class = "form-control input-height", @placeholder = "Email", @Id = "Email", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.Email, "*Email Accont of totalparco is required", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.Password, new { @class = "input-height" })
+                  @Html.TextBox("Password", null, new { @class = "form-control input-height", @type = "password", @placeholder = "Password", @Id = "Password", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.Password, "*Password is required", new { @class = "Validation-color" })
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.City, new { @class = "input-height" })
+                  @Html.TextBox("City", null, new { @class = "form-control input-height", @placeholder = "City", @Id = "City", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.City, "*City is required", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.Designation, new { @class = "input-height" })
+                  @Html.TextBox("Designation", null, new { @class = "form-control input-height", @placeholder = "Designation", @Id = "Designation", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.Designation, "*Designation is optional", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  <label>UserType*</label>
+                  @Html.DropDownList("UserTypeId", (IEnumerable<SelectListItem>)ViewBag.UserType, new { @class = "form-control", @Id = "UserType", })
+                  @Html.ValidationMessageFor(model => model.UserTypeId, "*UserType is required", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  <label>Department*</label>
+                  @Html.DropDownList("DepartmentId", (IEnumerable<SelectListItem>)ViewBag.Departments, new { @class = "form-control", @Id = "Department", })
+                  @Html.ValidationMessageFor(model => model.DepartmentId, "*Department is required", new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4" id="divregion" style="display:none">
+                  <label>Region*</label>
+                  @Html.DropDownList("RegionId", (IEnumerable<SelectListItem>)ViewBag.Regions, new { @class = "form-control", @Id = "RegionId", })
+                  @Html.ValidationMessageFor(model => model.RegionId, String.Empty, new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4" id="divarea" style="display:none">
+                  <label>Area*</label>
+                  @Html.DropDownList("AreaId", (IEnumerable<SelectListItem>)ViewBag.Areas, new { @class = "form-control", @Id = "AreaId", })
+                  @Html.ValidationMessageFor(model => model.AreaId, String.Empty, new { @class = "Validation-color" })
+                </div>
+                  <div class="col-md-4"><br />
+                     @Html.CheckBox("Is_Ceo", new { @Id = "ceo", })<label style="padding:10px;">CEO </label>
+                  </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-3 pull-right">
+                  <button type="button" id="CancelButton" class="btn btn-warning pull-right"> Cancel </button>
+                  <button type="submit" id="SubmitButton" class="btn btn-primary pull-right" style="margin-right: 5px;">Save </button>
+                </div>
+              </div>
+            </div>
+
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  @*<div id="ManageUsersList">
+        @Html.Partial("_ManageUsers", Model)
+    </div>*@
+
+</div>
+
+<script>
+
+
+  $(document).ready(function () {
+
+    $("#UserType").change(function () {
+      debugger;
+      var id = $("#UserType").val();
+      if (parseInt(id) == 3) {
+        $("#divregion").show();
+        $("#divarea").hide();
+        $("#divarea").val(0);
+
+        return;
+      }
+      if (parseInt(id) == 4) {
+        $("#divregion").hide();
+        $("#divarea").show();
+        $("#divregion").val(0);
+        return;
+      }
+
+    });
+
+    $("#SubmitButton").click(function () {
+      location.reload();
+    });
+
+  });
+
+</script>

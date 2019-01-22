@@ -1,0 +1,94 @@
+﻿@model  ME.ViewModels.HomeViewModel
+@{
+  ViewBag.Title = "Manager";
+  Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Manager</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          @using (Ajax.BeginForm("SaveManager", "Home", null, new AjaxOptions { HttpMethod = "POST" }))
+          {
+            @Html.TextBox("Id", null, new { @class = "", @Id = "ManagerId", @style = "display:none" })
+            <div class="form-group">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  <label>Name*</label>
+                  @Html.TextBox("Name", null, new { @class = "form-control input-height", @placeholder = "UserName", @Id = "Name" })
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-3 pull-right">
+                  <button type="button" id="CancelButton" class="btn btn-warning pull-right"> Cancel </button>
+                  <button type="submit" id="SubmitButton" class="btn btn-primary pull-right" style="margin-right: 5px;">Save </button>
+                </div>
+              </div>
+            </div>
+
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="ManageManagerList">
+    @Html.Partial("_ManageManager", Model)
+  </div>
+
+</div>
+
+<script>
+
+
+  $(document).ready(function () {
+
+    $("#SubmitButton").click(function () {
+      location.reload();
+    });
+
+    $('#ManageManagerList').on('click', '.EditManager', function () {
+      $('#Name').val($(this).attr('name'));
+      if ($(this).attr('managerId') == '0') {
+        $('#ManagerId').val('');
+      } else {
+        $('#ManagerId').val($(this).attr('managerId'));
+      }
+      $('#SubmitButton').text('Update');
+    });
+
+
+    $('#CancelButton').click(function () {
+      $('#Name').val('');
+      $('#ManagerId').val('');
+      $('#SubmitButton').text('Save');
+    });
+
+    $('#ManageManagerList').on('click', '.RemoveManager', function () {
+      var ManagerId = $(this).attr('managerId');
+      $.ajax({
+        type: "POST",
+        url: '@Url.Action("DeleteManager", "Home")',
+        data: ({ 'Id': ManagerId }),
+        beforeSend: function () {
+          $("#loadingScreen").css("display", "block");
+        },
+        success: function (data) {
+          $("#loadingScreen").css("display", "none");
+          $("#ManageManagerList").html("");
+          $("#ManageManagerList").html(data);
+        },
+        error: function (res) {
+          //AjaxFailure(res);
+        }
+      });
+    });
+  });
+
+</script>
+
+

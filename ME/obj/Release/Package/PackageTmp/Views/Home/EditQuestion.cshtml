@@ -1,0 +1,139 @@
+﻿@model  ME.Models.Question
+@{
+  ViewBag.Title = "Question";
+  Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+  input, textarea, select {
+    max-width: 100% !important;
+  }
+</style>
+
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Edit Questions</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <h3 id="QuesId" style="display:none">@ViewBag.QsId</h3>
+          <h3 id="ImagePath" style="display:none">@ViewBag.Path</h3>
+          @*@Html.TextBox("QsId",null, new { @class = "", @Id = "QuesId", @style = "display:none" })*@
+          <div class="form-group">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <label>Category*</label>
+                @Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryId, new { @class = "form-control", @Id = "Category" })
+              </div>
+              <div class="col-md-4">
+                <label>Question*</label>
+                @Html.TextArea("Text", null, new { @class = "form-control input-height", @placeholder = "Write a questions", @Id = "txtQuestion" })
+
+              </div>
+              <div class="col-md-4">
+                <label>Image*</label>
+                @*<input type="file" name="file" class="form-control" id="Image" />*@
+                <div class="">
+                  <div class="file-select">
+                    <div class="file-select-button" id="fileName">Choose Image</div>
+                    @*<div class="file-select-name" id="noFile">No file chosen...</div>*@
+                    @*<input class="img-show" type='file' id="imgInp" multiple="multiple" />*@
+                    <input type="file" name="chooseFile" id="imgInp">
+                  </div>
+                </div>
+                @*@Html.TextArea("ImagePath",null, new { @class = "hidden" })*@
+                @*@Html.ValidationMessageFor(model => model.question.ImagePath, String.Empty, new { @class = "Validation-color" })*@
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="col-md-3 pull-right">
+                <button id="btnSave" class="btn btn-primary pull-right" style="margin-right: 5px;">Save</button>
+                @*<button type="submit" id="SubmitButton" class="btn btn-primary pull-right" style="margin-right: 5px;">Save </button>*@
+              </div>
+            </div>
+          </div>
+
+          @* } *@
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function UploadImage(id) {
+    debugger;
+    var data = new FormData();
+    //alert(id);
+    var files = $("#imgInp").get(0).files;
+    var i;
+    for (i = 1; i <= files.length > 0; i++) {
+      data.append("UploadedImage" + i, files[i - 1]);
+      //var uniquekey = {
+      //    id: id
+      //};
+    }
+    data.append("id", id);
+    data.append("count", files.length);
+    // Make Ajax request with the contentType = false, and procesDate = false
+    var ajaxRequest = $.ajax({
+      type: "POST",
+      url: '@Url.Action("UploadImage", "Home")',
+      contentType: false,
+      processData: false,
+      data: data
+    });
+    ajaxRequest.done(function (xhr, textStatus) {
+      //alert('Image Uploaded successfully')
+      location.href = '/Home/List'
+    });
+  }
+  $(document).ready(function () {
+
+    $("#btnSave").click(function () {
+      if (parseInt($("#Category").val()) <= 0) {
+        alert("Please select category");
+        return;
+      }
+      debugger;
+      var question = {
+        "QsId": parseInt($("#QuesId").text()),
+        "CategoryId": $("#Category").val(),
+        "Text": $("#txtQuestion").val(),
+        "ImagePath": $("#imgInp").text()
+
+      };
+
+      $.ajax({
+        url: '@Url.Action("ModifyQuestion", "Home")',
+        type: 'Post',
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify(question),
+        statusCode: {
+          200: function (data) {
+            if (data > 0)
+              UploadImage(data);
+            else {
+              //show message
+            }
+          },
+          500: function (data) {
+            //show message
+          }
+        },
+        jsonp: 'jsonp'
+
+      });
+
+    });
+  });
+
+
+
+
+</script>
+
+

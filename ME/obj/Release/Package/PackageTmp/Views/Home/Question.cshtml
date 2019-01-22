@@ -1,0 +1,256 @@
+﻿@model  ME.ViewModels.HomeViewModel
+@{
+  ViewBag.Title = "Question";
+  Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+  .file-upload {
+    display: block;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+  }
+
+    .file-upload .file-select {
+      display: block;
+      border: 2px solid #dce4ec;
+      color: #34495e;
+      cursor: pointer;
+      height: 34px;
+      line-height: 34px;
+      text-align: left;
+      background: #FFFFFF;
+      overflow: hidden;
+      position: relative;
+    }
+
+      .file-upload .file-select .file-select-button {
+        background: #dce4ec;
+        padding: 0 10px;
+        display: inline-block;
+        height: 34px;
+        line-height: 34px;
+      }
+
+      .file-upload .file-select .file-select-name {
+        line-height: 34px;
+        display: inline-block;
+        padding: 0 10px;
+      }
+
+      .file-upload .file-select:hover {
+        border-color: #34495e;
+        transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+      }
+
+        .file-upload .file-select:hover .file-select-button {
+          background: #34495e;
+          color: #FFFFFF;
+          transition: all .2s ease-in-out;
+          -moz-transition: all .2s ease-in-out;
+          -webkit-transition: all .2s ease-in-out;
+          -o-transition: all .2s ease-in-out;
+        }
+
+    .file-upload.active .file-select {
+      border-color: #3fa46a;
+      transition: all .2s ease-in-out;
+      -moz-transition: all .2s ease-in-out;
+      -webkit-transition: all .2s ease-in-out;
+      -o-transition: all .2s ease-in-out;
+    }
+
+      .file-upload.active .file-select .file-select-button {
+        background: #3fa46a;
+        color: #FFFFFF;
+        transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -webkit-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+      }
+
+    .file-upload .file-select input[type=file] {
+      z-index: 100;
+      cursor: pointer;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+
+    .file-upload .file-select.file-select-disabled {
+      opacity: 0.65;
+    }
+
+      .file-upload .file-select.file-select-disabled:hover {
+        cursor: default;
+        display: block;
+        border: 2px solid #dce4ec;
+        color: #34495e;
+        cursor: pointer;
+        height: 34px;
+        line-height: 34px;
+        margin-top: 5px;
+        text-align: left;
+        background: #FFFFFF;
+        overflow: hidden;
+        position: relative;
+      }
+
+        .file-upload .file-select.file-select-disabled:hover .file-select-button {
+          background: #dce4ec;
+          color: #666666;
+          padding: 0 10px;
+          display: inline-block;
+          height: 34px;
+          line-height: 34px;
+        }
+
+        .file-upload .file-select.file-select-disabled:hover .file-select-name {
+          line-height: 34px;
+          display: inline-block;
+          padding: 0 10px;
+        }
+
+  input, textarea, select {
+    max-width: 100% !important;
+  }
+</style>
+
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Add Questions</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          @*@using (Ajax.BeginForm("SaveQuestionData", "Home"/*new { Controller = "SuperAdmin", area = "SuperAdmin"}*/, null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSaveOrUpdateProductsSucess(data)", OnFailure = "AjaxFailure(xhr,status,error)" }))
+          {*@
+            
+            @*@Html.TextBox("QsId",null, new { @class = "", @Id = "QuesId", @style = "display:none" })*@
+            <div class="form-group">
+              <div class="col-md-12">
+                <div class="col-md-4">
+              <label>Category*</label>
+                  @Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryId, new { @class = "form-control" ,@Id="Category"})
+                </div>
+                <div class="col-md-4">
+               <label>Question*</label>
+                  @Html.TextArea("Text", null, new { @class = "form-control input-height", @placeholder = "Write a questions", @Id = "txtQuestion" })
+                  
+                </div>
+                <div class="col-md-4">
+                 <label>Image*</label>
+                  @*<input type="file" name="file" class="form-control" id="Image" />*@
+                  <div class="">
+                    <div class="file-select">
+                      <div class="file-select-button" id="fileName">Choose Image</div>
+                      @*<div class="file-select-name" id="noFile">No file chosen...</div>*@
+                        @*<input class="img-show" type='file' id="imgInp" multiple="multiple" />*@
+                      <input type="file" name="chooseFile" id="imgInp">
+                    </div>
+                  </div>
+                  @*@Html.TextArea("ImagePath",null, new { @class = "hidden" })*@
+                  @*@Html.ValidationMessageFor(model => model.question.ImagePath, String.Empty, new { @class = "Validation-color" })*@
+                </div>
+              </div>
+           
+              <div class="col-md-12">
+                <div class="col-md-3 pull-right">
+                    <button id="btnSave" class="btn btn-primary pull-right" style="margin-right: 5px;">Save</button>
+                  @*<button type="submit" id="SubmitButton" class="btn btn-primary pull-right" style="margin-right: 5px;">Save </button>*@
+                </div>
+              </div>
+            </div>
+
+          @* } *@
+        </div>
+      </div>
+    </div>
+  </div>
+  @*<div id="ManageQuestionList">
+    @Html.Partial("_ManageQuestionList", Model)
+  </div>*@
+</div>
+<script>
+    function UploadImage(id) {
+        debugger;
+        var data = new FormData();
+        //alert(id);
+        var files = $("#imgInp").get(0).files;
+        var i;
+        for (i = 1; i <= files.length > 0; i++) {
+            data.append("UploadedImage" + i, files[i - 1]);
+            //var uniquekey = {
+            //    id: id
+            //};
+        }
+        data.append("id", id);
+        data.append("count", files.length);
+        // Make Ajax request with the contentType = false, and procesDate = false
+        var ajaxRequest = $.ajax({
+            type: "POST",
+            url: '@Url.Action("UploadImage", "Home")',
+            contentType: false,
+            processData: false,
+            data: data
+        });
+        ajaxRequest.done(function (xhr, textStatus) {
+            //alert('Image Uploaded successfully')
+            location.href = '/Home/List'
+        });
+    }
+    $(document).ready(function () {
+
+        $("#btnSave").click(function () {
+            if (parseInt($("#Category").val()) <= 0)
+            {
+                alert("Please select category");
+                return;
+            }
+            
+            var question = {
+                "CategoryId": $("#Category").val(),
+                "Text": $("#txtQuestion").val()
+                
+            };
+
+            $.ajax({
+                url: '@Url.Action("SaveQuestionData", "Home")',
+                type: 'Post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(question),
+                statusCode: {
+                    200: function (data) {
+                        if (data > 0)
+                            UploadImage(data);
+                        else {
+                            //show message
+                        }
+                    },
+                    500: function (data) {
+                        //show message
+                    }
+                },
+                jsonp: 'jsonp'
+
+            });
+
+        });
+    });
+
+
+       
+
+</script>
+
+

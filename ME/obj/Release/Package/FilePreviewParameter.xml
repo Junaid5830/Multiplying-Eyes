@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site/ME" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^F:\\Jinn\ Byte\\Ahsan\\Total\\Multiplying\ Eyes\\Code\\ME\\ME\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^F:\\Jinn\ Byte\\Ahsan\\Total\\Multiplying\ Eyes\\Code\\ME\\ME\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-ME-20181107121535.mdf;Initial Catalog=aspnet-ME-20181107121535;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="F:\\Jinn\ Byte\\Ahsan\\Total\\Multiplying\ Eyes\\Code\\ME\\ME\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="MultiplyingEyesEntities-Web.config Connection String" description="" value="metadata=res://*/Models.MEModel.csdl|res://*/Models.MEModel.ssdl|res://*/Models.MEModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=DESKTOP-G762GRI\SQL2014;initial catalog=MultiplyingEyes;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="F:\\Jinn\ Byte\\Ahsan\\Total\\Multiplying\ Eyes\\Code\\ME\\ME\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MultiplyingEyesEntities']/@connectionString" />
+  </parameter>
+</parameters>

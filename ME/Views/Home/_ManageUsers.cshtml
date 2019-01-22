@@ -1,0 +1,67 @@
+﻿@model  ME.ViewModels.HomeViewModel
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">ManageUsers</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="question" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>City</th>
+                                <th>Designation</th>
+                                <th>UserTypeName</th>
+                                @if (Convert.ToString(Session["UserType"]).Equals("6")==false)
+                                {
+                                    <th>Action</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.GetAllUserList != null)
+                            {
+                                int count = 1;
+                                foreach (var loop in Model.GetAllUserList)
+                                {
+
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@loop.Name</td>
+                                        <td>@loop.Email</td>
+                                        <td>@loop.Password</td>
+                                        <td>@loop.City</td>
+                                        <td>@loop.Designation</td>
+                                        <td>@loop.UserTypeName</td>
+                                        @if (Convert.ToString(Session["UserType"]).Equals("6")==false)
+                                        {
+                                            <td>
+                                                <a target="_blank" style="margin-right: 5px;" href="EditUser?id=@loop.UserId">Edit</a>
+                                                <a style="margin-right: 5px;color:red" href="DeleteUser?id=@loop.UserId">Delete</a>
+                                            </td>
+                                        }
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#question').DataTable();
+    });
+</script>
+
+

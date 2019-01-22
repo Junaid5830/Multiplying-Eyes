@@ -1,0 +1,74 @@
+﻿@model  ME.ViewModels.HomeViewModel
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">RetailOutlet List</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="pump" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Sr#</th>
+                                <th>Name</th>
+                                <th>SapCode</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Area</th>
+                                <th>Address</th>
+                                @if (Convert.ToString(Session["UserType"]).Equals("6")==false)
+                                {
+                                    <th>Action</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.GetRetailOutletList != null)
+                            {
+                                int count = 1;
+                                foreach (var loop in Model.GetRetailOutletList)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@loop.Name</td>
+                                        <td>@loop.SapCode</td>
+                                        <td>@loop.Latitude</td>
+                                        <td>@loop.Longitude</td>
+                                        <td>@loop.Area</td>
+                                        <td>@loop.Address</td>
+                                        @if (Convert.ToString(Session["UserType"]).Equals("6")==false)
+                                        {
+                                            <td>
+                                                <a target="_blank" style="margin-right: 5px;" href=EditOutlet?id =@loop.RetailOutletId>Edit</a>
+                                                <a style="margin-right: 5px;color:red" href=DeleteRetailOutlet?OutletId =@loop.RetailOutletId>Delete</a>
+                                                @*<span>
+                                                      <i txt="@loop.Name" quesId="@loop.RetailOutletId" sapcode="@loop.SapCode" lat="@loop.Latitude" long="@loop.Longitude" area="@loop.Area" address="@loop.Address" class="EditQuestion fa fa-edit" style="color: #337ab7;cursor: pointer;"></i>
+                                                    </span>*@
+                                                @*<span style="margin-left: 10px;">
+                                                      <i quesId="@loop.RetailOutletId" class="RemoveQuestion fa fa-trash-o" style="color: red;cursor: pointer;"></i>
+                                                    </span>*@
+                                            </td>
+                                        }
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#pump').DataTable();
+    });
+</script>
+
+
+
+

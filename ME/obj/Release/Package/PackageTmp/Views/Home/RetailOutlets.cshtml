@@ -1,0 +1,122 @@
+﻿@model  ME.ViewModels.HomeViewModel
+@{
+  ViewBag.Title = "RetailOutlets";
+  Layout = Request.IsAjaxRequest() ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">RetailOutlets</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          @using (Ajax.BeginForm("SaveRetailOutlet", "Home"/*new { Controller = "SuperAdmin", area = "SuperAdmin"}*/, null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSaveOrUpdateProductsSucess(data)", OnFailure = "AjaxFailure(xhr,status,error)" }))
+          {
+            @Html.TextBox("RetailOutletId", null, new { @class = "", @Id = "RetailOutletId", @style = "display:none" })
+            <div class="form-group">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.reatialOutlet.Name, new { @class = "input-height" })
+                  @Html.TextBox("Name", null, new { @class = "form-control input-height", @placeholder = "PumpName", @Id = "Name", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.reatialOutlet.Name, String.Empty, new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.reatialOutlet.SapCode, new { @class = "input-height" })
+                  @Html.TextBox("SapCode", null, new { @class = "form-control input-height", @placeholder = "SapCode", @type = "number", @Id = "SapCode", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.reatialOutlet.SapCode, String.Empty, new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.reatialOutlet.Latitude, new { @class = "input-height" })
+                  @Html.TextBox("Latitude", null, new { @class = "form-control input-height", @type = "number", @placeholder = "Latitude", @Id = "Latitude", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.reatialOutlet.Latitude, String.Empty, new { @class = "Validation-color" })
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.reatialOutlet.Longitude, new { @class = "input-height" })
+                  @Html.TextBox("Longitude", null, new { @class = "form-control input-height", @placeholder = "Longitude", @type = "number", @Id = "Longitude", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.reatialOutlet.Longitude, String.Empty, new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  <label>Select Area*</label>
+                  @Html.DropDownList("AreaId", (IEnumerable<SelectListItem>)ViewBag.AreaId, new { @class = "form-control", @Id = "AreaType", })
+                  @Html.ValidationMessageFor(model => model.user.UserTypeId, String.Empty, new { @class = "Validation-color" })
+                </div>
+                <div class="col-md-4">
+                  @Html.LabelFor(model => model.reatialOutlet.Address, new { @class = "input-height" })
+                  @Html.TextArea("Address", null, new { @class = "form-control input-height", @placeholder = "Designation", @Id = "Designation", @required = "required" })
+                  @Html.ValidationMessageFor(model => model.reatialOutlet.Address, String.Empty, new { @class = "Validation-color" })
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-3 pull-right">
+                  <button type="button" id="CancelButton" class="btn btn-warning pull-right"> Cancel </button>
+                  <button type="submit" id="SubmitButton" class="btn btn-primary pull-right" style="margin-right: 5px;">Save </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+  $(document).ready(function () {
+
+    $("#SubmitButton").click(function () {
+      location.reload();
+    });
+    @*$('#ManageUsersList').on('click', '.EditUser', function () {
+      $('#Name').val($(this).attr('name'));
+      $('#Email').val($(this).attr('email'));
+      if ($(this).attr('userId') == '0') {
+        $('#UserId').val('');
+      } else {
+        $('#UserId').val($(this).attr('userId'));
+      }
+      $('#City').val($(this).attr('city'));
+      $('#Designation').val($(this).attr('desig'));
+      $('#Password').val($(this).attr('password'));
+      $('#UserType').val($(this).attr('usertype'));
+      $('#SubmitButton').text('Update');
+    });
+    $('#CancelButton').click(function () {
+      $('#Name').val('');
+      $('#Email').val('');
+      $('#UserId').val('');
+      $('#City').val('')
+      $('#Designation').val('');
+      $('#UserType').val('');
+      $('#SubmitButton').text('Save');
+    });
+    $('#ManageUsersList').on('click', '.RemoveUser', function () {
+      var UserId = $(this).attr('userId');
+      $.ajax({
+        type: "POST",
+        url: '@Url.Action("DeleteUser", "Home")',
+        data: ({ 'user': UserId }),
+        beforeSend: function () {
+          $("#loadingScreen").css("display", "block");
+        },
+        success: function (data) {
+          $("#loadingScreen").css("display", "none");
+          $("#ManageUsersList").html("");
+          $("#ManageUsersList").html(data);
+        },
+        error: function (res) {
+          //AjaxFailure(res);
+        }
+      });
+    });*@
+  });
+
+</script>
+
+

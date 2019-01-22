@@ -1,0 +1,59 @@
+﻿@model  ME.ViewModels.HomeViewModel
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">ManageManager</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="question" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Sr#</th>
+                <th>Name</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (Model.GetAllManagerList != null)
+              {
+                int count = 1;
+                foreach (var loop in Model.GetAllManagerList)
+                {
+
+                  <tr>
+                    <td>@count</td>
+                    <td>@loop.Name</td>
+                    <td>
+                      <span>
+                        <i name="@loop.Name" managerId="@loop.Id" class="EditManager fa fa-edit" style="color: #337ab7;cursor: pointer;"></i>
+                      </span>
+                      <span style="margin-left: 10px;">
+                        <i managerId="@loop.Id" class="RemoveManager fa fa-trash-o" style="color: red;cursor: pointer;"></i>
+                      </span>
+                    </td>
+                  </tr>
+                  count++;
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function () {
+      $('#question').DataTable();
+    });
+</script>
+
+
+
+
+
+

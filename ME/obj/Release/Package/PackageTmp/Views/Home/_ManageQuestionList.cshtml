@@ -1,0 +1,71 @@
+﻿@model  ME.ViewModels.HomeViewModel
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">ManageQuestions</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="question" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Sr#</th>
+                <th>Question</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (Model.GetAllQuestionList != null)
+              {
+                int count = 1;
+                foreach (var loop in Model.GetAllQuestionList)
+                {
+
+                  <tr>
+                    <td>@count</td>
+                    <td>@loop.Text</td>
+                    <td>@loop.Name</td>
+                    <td>
+                    @if (@loop.ImagePath == null)
+                    {
+                      <img src="Assests/Images/bonjour1.png" style="width: 50px;height: 50px;" />
+                    }
+                    else
+                    {
+                      <img src="@loop.ImagePath" style="width: 50px;height: 50px;" />
+                    }
+                    </td>
+                    <td>
+                      <span>
+                        <i txt="@loop.Text" quesId="@loop.QsId" imgpath="@loop.ImagePath" catName="@loop.Name" class="EditQuestion fa fa-edit" style="color: #337ab7;cursor: pointer;"></i>
+                      </span>
+                      <span style="margin-left: 10px;">
+                        <i quesId="@loop.QsId" class="RemoveQuestion fa fa-trash-o" style="color: red;cursor: pointer;"></i>
+                      </span>
+                    </td>
+                  </tr>
+                  count++;
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function () {
+      $('#question').DataTable();
+    });
+</script>
+
+
+
+
+

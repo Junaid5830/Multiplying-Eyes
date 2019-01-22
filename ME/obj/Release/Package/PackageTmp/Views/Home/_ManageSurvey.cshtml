@@ -1,0 +1,66 @@
+﻿@model  ME.ViewModels.HomeViewModel
+<div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">ManageSurvey</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="question" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Sr#</th>
+                <th>PumpName</th>
+                <th>Category</th>
+                <th>Remarks</th>
+                <th>CreatedOn</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (Model.GetSurveyList != null)
+              {
+                int count = 1;
+                foreach (var loop in Model.GetSurveyList)
+                {
+
+                  <tr>
+                    <td>@count</td>
+                    <td>@loop.PumpName</td>
+                    <td>@loop.Category</td>
+                    <td>@loop.Remarks</td>
+                    <td>@loop.CreatedOn</td>
+                    <td>
+                      <span>
+                        <i txt="@loop.PumpName" categoryid="@loop.SurveyId" Remarks="@loop.Remarks" CreatedOn="@loop.CreatedOn" Category="@loop.Category" class="EditQuestion fa fa-edit" style="color: #337ab7;cursor: pointer;"></i>
+                      </span>
+                      <span style="margin-left: 10px;">
+                        <i categoryid="@loop.SurveyId" class="RemoveQuestion fa fa-trash-o" style="color: red;cursor: pointer;"></i>
+                      </span>
+                    </td>
+                  </tr>
+                  count++;
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function () {
+      $('#question').DataTable();
+    });
+</script>
+
+
+
+
+
+
+
